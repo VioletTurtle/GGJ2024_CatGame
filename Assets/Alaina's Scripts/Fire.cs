@@ -8,8 +8,6 @@ public class Fire : MonoBehaviour
     [SerializeField] ParticleSystem flames;
     bool stopEmission;
     [SerializeField] float decreaseSpeed;
-    [SerializeField] float pauseTime = 2f;
-    private float time;
     [SerializeField] float emissionRate;
     ParticleSystem.EmissionModule flameEmission;
     void Start()
