@@ -14,7 +14,6 @@ public class CatLady : MonoBehaviour
 
     private Transform catTransform;
     private NavMeshAgent navMeshAgent;
-    private float idleTime;
     private float currentIdleTime;
 
     void Start()
