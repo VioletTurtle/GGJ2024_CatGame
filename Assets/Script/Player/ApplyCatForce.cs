@@ -9,7 +9,7 @@ public class ApplyCatForce : MonoBehaviour
     {
         if (collision.rigidbody != null)
         {
-            Debug.Log("triggers");
+            //Debug.Log("triggers");
             Vector3 dir = collision.transform.position - gameObject.transform.position;
             collision.rigidbody.AddForce(dir.normalized * power, ForceMode.Impulse);
         }

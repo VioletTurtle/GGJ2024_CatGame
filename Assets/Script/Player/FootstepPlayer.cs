@@ -9,12 +9,12 @@ public class FootstepPlayer : MonoBehaviour
     public bool stepping;
 
     //Interval at which to play the sound effect, in milliseconds;
-    public int stepInterval;
+    public float stepInterval = 0.1f;
+    public AudioClip clip;
 
-    public AudioClip[] sounds;
     public AudioSource audioSource;
 
-    private bool playingFootsteps;
+    public bool playingFootsteps;
 
     private void Awake()
     {
@@ -26,12 +26,11 @@ public class FootstepPlayer : MonoBehaviour
         PlayFootsteps();   
     }
 
-    public async void PlayFootsteps()
+    public void PlayFootsteps()
     {
-        if (playingFootsteps) return;
-
-        while (stepping) 
+        if (!playingFootsteps)
         {
+<<<<<<< Updated upstream
             await Task.Delay(stepInterval);
 
             int soundToPlay = Random.Range(0, sounds.Length);
@@ -42,13 +41,22 @@ public class FootstepPlayer : MonoBehaviour
             audioSource.pitch = pitchToPlay;
             audioSource.Play();
 
+=======
+>>>>>>> Stashed changes
             playingFootsteps = true;
+            StartCoroutine(PlayFootstep());
         }
-        
+
     }
 
-    public void StopFootsteps()
+    IEnumerator PlayFootstep()
     {
+        float volumeToPlay = Random.Range(0.60f, 0.75f);
+        float pitchToPlay = Random.Range(0.95f, 1.05f);
+        audioSource.volume = volumeToPlay;
+        audioSource.pitch = pitchToPlay;
+        audioSource.PlayOneShot(clip);
+        yield return new WaitForSeconds(stepInterval);
         playingFootsteps = false;
     }
     
