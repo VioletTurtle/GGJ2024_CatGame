@@ -56,12 +56,14 @@ public class PawseMenu : MonoBehaviour
     {
         Time.timeScale = 0;
         isPaused = true;
+        Cursor.lockState = CursorLockMode.None;
     }
 
     public void ResumeGame()
     {
         Time.timeScale = 1;
         isPaused = false;
+        Cursor.lockState = CursorLockMode.Locked;
     }
 
     public void MainMenu()
