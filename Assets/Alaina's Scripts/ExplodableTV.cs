@@ -6,25 +6,17 @@ using UnityEngine;
 
 public class ExplodableTV : MonoBehaviour
 {
+    [SerializeField] ParticleSystem smoke;
+    void Start(){
+        smoke.Pause();
+    }
     private void OnCollisionEnter(Collision collision)
     {
         if(collision.gameObject.layer == 6)
         {
-            /* void Explode()
-            {
-                var exp = GetComponent<ParticleSystem>();
-                exp.Play();
-                Destroy(gameObject);
-            }
-            //Debug.Log("tv on the floor"); */
+            smoke.Play();
             
         }
     }
-    //on collision enter
-        //if collisioin.layer = (layer of the floor)
-            //print (tv on the floor)
-    //figure out waht to do to make tv shatter
-    //particle system, how to make object shatter in unity, animation
-    //before destroy game.object       
-    //try to leave particles
+
 }
