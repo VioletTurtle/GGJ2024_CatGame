@@ -25,7 +25,7 @@ public class CatLady : MonoBehaviour
         Target = GameObject.FindGameObjectWithTag("Player");
         navMeshAgent = GetComponent<NavMeshAgent>();
         SetRandomIdleTime();
-        MoveToRandomPosition();
+        //MoveToRandomPosition();
         //animator = GetComponent<Animator>();
         patrol = true;
         cm = GetComponent<CharacterManager>();
@@ -36,27 +36,28 @@ public class CatLady : MonoBehaviour
         if (IsCatInSight())
         {
             animator.SetBool("IsRunning", true);
+            animator.SetBool("IsWalking", false);
+            animator.SetBool("IsIdle", false);
             // Cat detected, start pursuit
             navMeshAgent.speed = runSpeed;
             navMeshAgent.SetDestination(Target.transform.position);
-            if (navMeshAgent.remainingDistance < 0.5f)
-            {
-                // If close to the destination, idle for a random time
-                animator.SetBool("IsIdle", true);
-                patrol = false;
-            }
         }
         else if (patrol)
         {
             // Cat not detected, move aimlessly or idle
             navMeshAgent.speed = patrolSpeed;
-            animator.SetBool("IsRunning", false);
-            animator.SetBool("IsWalking", true);
+            if (animator.GetBool("IsIdle"))
+            {
+                animator.SetBool("IsWalking", true);
+                animator.SetBool("IsIdle", false);
+                animator.SetBool("IsRunning", false);
+            }
 
-            if (navMeshAgent.remainingDistance < 0.5f)
+            if (Vector3.Distance(transform.position, navMeshAgent.destination) < 0.5f)
             {
                 // If close to the destination, idle for a random time
                 animator.SetBool("IsWalking", false);
+                animator.SetBool("IsIdle", true);
                 currentIdleTime -= Time.deltaTime;
                 if (currentIdleTime <= 0f)
                 {
@@ -101,7 +102,12 @@ public class CatLady : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            cm.Caught(this.gameObject, Target);
+            animator.SetBool("IsIdle", true);
+            animator.SetBool("IsRunning", false);
+            animator.SetBool("IsRunning", false);
+            patrol = false;
+            //cm.Caught(this.gameObject, Target);
+            patrol = true;
         }
     }
 }
