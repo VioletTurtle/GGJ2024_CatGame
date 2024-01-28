@@ -7,12 +7,10 @@ using UnityEngine.EventSystems;
 public class PlayerController : MonoBehaviour
 {
     private Animator animator;
-    public CharacterController characterController;
-    public Camera cam;
     private float speed = 0.05f;
-    public Rigidbody rb;
+    private Rigidbody rb;
     public GameObject cameraTarget;
-    private float jump = 7f;
+    private float jump = 6f;
 
     //Camera Control
     private float sensitivityX = 100f;
@@ -36,8 +34,8 @@ public class PlayerController : MonoBehaviour
         float groundCheckDist = 0.3f;
         float groundBuffer = 0.2f;
         RaycastHit hit;
-        Debug.DrawRay(transform.position + new Vector3(0, groundBuffer, 0), new Vector3(0, -groundCheckDist, 0), Color.red);
-        return Physics.Raycast(transform.position + new Vector3(0, groundBuffer, 0), Vector3.down, out hit, groundCheckDist);
+        Debug.DrawRay(transform.position + new Vector3(0, groundBuffer, -0.1f), new Vector3(0, -groundCheckDist, 0), Color.red);
+        return Physics.Raycast(transform.position + new Vector3(0, groundBuffer, -0.1f), Vector3.down, out hit, groundCheckDist);
     }
 
     private void Awake()
@@ -93,7 +91,7 @@ public class PlayerController : MonoBehaviour
     {
         Vector3 movDirection = gameObject.transform.forward * verticalInput;//+ gameObject.transform.right * horizontalInput;
         rb.AddForce(movDirection.normalized * speed * 10f * Time.deltaTime, ForceMode.VelocityChange);
-        Debug.Log(Mathf.Clamp(rb.velocity.magnitude, 0, 5)/5);
+        //Debug.Log(Mathf.Clamp(rb.velocity.magnitude, 0, 5)/5);
         animator.SetFloat("Blend", Mathf.Clamp(rb.velocity.magnitude, 0, 5) / 5);
         if (rb.velocity.magnitude > 0)
         {

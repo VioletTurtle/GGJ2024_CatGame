@@ -214,7 +214,7 @@ Transform:
   m_GameObject: {fileID: 1358879561455849365}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.70000076, z: -1.16}
+  m_LocalPosition: {x: 0, y: 0.7000001, z: -1.1600003}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1220,7 +1220,7 @@ Transform:
   m_GameObject: {fileID: 4640451690881068294}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.70000076, z: -1.16}
+  m_LocalPosition: {x: 0, y: 0.7000001, z: -1.1600003}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1819,8 +1819,6 @@ GameObject:
   - component: {fileID: 2859610244821580308}
   - component: {fileID: 6306819174740649839}
   - component: {fileID: 142102098855947242}
-  - component: {fileID: 8592969694244584008}
-  - component: {fileID: 629848268566257080}
   m_Layer: 3
   m_Name: PlayerCat
   m_TagString: Untagged
@@ -2046,54 +2044,12 @@ CapsuleCollider:
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
-  m_Enabled: 0
+  m_Enabled: 1
   serializedVersion: 2
   m_Radius: 0.18
   m_Height: 0.68
   m_Direction: 2
   m_Center: {x: 0, y: 0.18, z: 0}
---- !u!65 &8592969694244584008
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7524604473861134964}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 0
-  serializedVersion: 3
-  m_Size: {x: 0.17, y: 0.36, z: 0.61}
-  m_Center: {x: 0, y: 0.18, z: 0}
---- !u!135 &629848268566257080
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7524604473861134964}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Radius: 0.29
-  m_Center: {x: 0, y: 0.28, z: 0}
 --- !u!1 &7746963417725600053
 GameObject:
   m_ObjectHideFlags: 0
@@ -2546,6 +2502,46 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: CatAttack
+      objectReference: {fileID: 0}
+    - target: {fileID: 4555898931807697277, guid: 7ed64cb66f11e644d835b2a7c50a352a,
+        type: 3}
+      propertyPath: m_LocalScale.x
+      value: 4.33
+      objectReference: {fileID: 0}
+    - target: {fileID: 4555898931807697277, guid: 7ed64cb66f11e644d835b2a7c50a352a,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 2.16
+      objectReference: {fileID: 0}
+    - target: {fileID: 4555898931807697277, guid: 7ed64cb66f11e644d835b2a7c50a352a,
+        type: 3}
+      propertyPath: m_LocalScale.z
+      value: 2.0066655
+      objectReference: {fileID: 0}
+    - target: {fileID: 4555898931807697277, guid: 7ed64cb66f11e644d835b2a7c50a352a,
+        type: 3}
+      propertyPath: m_ConstrainProportionsScale
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7455537070747696200, guid: 7ed64cb66f11e644d835b2a7c50a352a,
+        type: 3}
+      propertyPath: m_IsKinematic
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7758906321036597462, guid: 7ed64cb66f11e644d835b2a7c50a352a,
+        type: 3}
+      propertyPath: power
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8195784473556587722, guid: 7ed64cb66f11e644d835b2a7c50a352a,
+        type: 3}
+      propertyPath: power
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9095661489237802376, guid: 7ed64cb66f11e644d835b2a7c50a352a,
+        type: 3}
+      propertyPath: power
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

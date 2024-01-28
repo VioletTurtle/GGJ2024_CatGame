@@ -11,17 +11,17 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: 2c4eec42cfc85c749be391e82aceb875,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -64.51107
+      value: 0.8933034
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 2c4eec42cfc85c749be391e82aceb875,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 56.73096
+      value: -1.572
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 2c4eec42cfc85c749be391e82aceb875,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -6.2717643
+      value: -3.6684349
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 2c4eec42cfc85c749be391e82aceb875,
         type: 3}
@@ -98,7 +98,7 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8249005610905854953}
   serializedVersion: 4
-  m_Mass: 1
+  m_Mass: 0.05
   m_Drag: 0
   m_AngularDrag: 0.05
   m_CenterOfMass: {x: 0, y: 0, z: 0}
@@ -131,9 +131,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   triggerOptions:
     triggerType: 0
-    minimumCollisionForce: 500
-    filterCollisionsByTag: 0
-    triggerAllowedTags: []
+    minimumCollisionForce: 2.5
+    filterCollisionsByTag: 1
+    triggerAllowedTags:
+    - Untagged
     triggerKey: 0
   fractureOptions:
     fragmentCount: 10

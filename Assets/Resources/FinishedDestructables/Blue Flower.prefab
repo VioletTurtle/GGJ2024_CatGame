@@ -11,17 +11,17 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: 049261c380654ce41a3962a1e1c2d0b5,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -65.501076
+      value: -0.24604195
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 049261c380654ce41a3962a1e1c2d0b5,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 56.73096
+      value: -1.527
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 049261c380654ce41a3962a1e1c2d0b5,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -4.6317644
+      value: -3.3280342
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 049261c380654ce41a3962a1e1c2d0b5,
         type: 3}
@@ -98,7 +98,7 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5255544646806441384}
   serializedVersion: 4
-  m_Mass: 1
+  m_Mass: 0.05
   m_Drag: 0
   m_AngularDrag: 0.05
   m_CenterOfMass: {x: 0, y: 0, z: 0}
@@ -131,7 +131,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   triggerOptions:
     triggerType: 0
-    minimumCollisionForce: 500
+    minimumCollisionForce: 2
     filterCollisionsByTag: 0
     triggerAllowedTags: []
     triggerKey: 0
