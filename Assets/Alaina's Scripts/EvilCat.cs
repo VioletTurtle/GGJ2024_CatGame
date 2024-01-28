@@ -5,17 +5,21 @@ using UnityEngine;
 
 public class EvilCat : MonoBehaviour
 {
-    [SerializeField] Transform evilCat;
-    public float speed;
-
+    [SerializeField] GameObject evilCat;
+    public float step = 0.36f;
+    [SerializeField] GameObject foodTarget;
     [SerializeField] Animator _animator;
     void Start(){
         _animator = GetComponent<Animator>();
-        speed = 1.0f * Time.deltaTime;
+
     }
     public void MoveEvilCat(){
-        _animator.SetTrigger("OnCatFoodDrop");
+        //_animator.SetTrigger("OnCatFoodDrop");
         Debug.Log("Evil Cat: FOOOOOD");
+       
+        evilCat.transform.position = Vector3.MoveTowards(evilCat.transform.position, foodTarget.transform.position, step);
+        
+
     }
 
     void OnCollisionEnter(Collision collision){
@@ -24,4 +28,8 @@ public class EvilCat : MonoBehaviour
             Debug.Log("Death");
         }
     }
+    /*void Update()
+    {
+        evilCat.transform.position = Vector3.MoveTowards(evilCat.transform.position, foodTarget.transform.position, step);
+    }*/
 }

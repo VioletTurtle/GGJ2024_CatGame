@@ -2,14 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ExplodablePlant : MonoBehaviour
+public class CatFood : MonoBehaviour
 {
-    [SerializeField] GrannyMovement grammy;
+    [SerializeField] EvilCat evilCat;
     void OnCollisionEnter(Collision collision){
         if (collision.gameObject.layer == 6)
         {
-            Debug.Log("Plant hit the floor");
-            grammy.MoveGrammy();
+            Debug.Log("Food hit the floor");
+            evilCat.MoveEvilCat();
         }
     }
+
 }
