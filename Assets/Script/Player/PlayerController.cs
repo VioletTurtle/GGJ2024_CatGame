@@ -10,15 +10,14 @@ public class PlayerController : MonoBehaviour
     public CharacterController characterController;
     public Camera cam;
     private Vector3 targetDirection = Vector3.forward;
-    public float speed = 0.05f;
-    public float jumping = 0f;
+    private float speed = 0.05f;
     public Rigidbody rb;
     public GameObject cameraTarget;
-    private float jump = 3f;
+    private float jump = 7f;
 
     //Camera Control
-    private float sensitivityX = 400f;
-    private float sensitivityY = 400f;
+    private float sensitivityX = 100f;
+    private float sensitivityY = 100f;
     public CinemachineVirtualCamera virtualCamera;
     private float yCamRot;
     private float xCamRot;
@@ -28,6 +27,7 @@ public class PlayerController : MonoBehaviour
 
     bool IsGrounded()
     {
+        speed = 30f;
         float groundCheckDist = 0.3f;
         float groundBuffer = 0.2f;
         RaycastHit hit;
@@ -49,27 +49,38 @@ public class PlayerController : MonoBehaviour
         horizontalInput = Input.GetAxisRaw("Horizontal");
         verticalInput = Input.GetAxisRaw("Vertical");
 
+        if (verticalInput < 0)
+        {
+            verticalInput = 0;
+        }
 
+        if (!IsGrounded())
+        {
+            speed = Input.GetKey(KeyCode.LeftShift) ? 60f : 40f;
+        }
+        else
+        {
+            speed = Input.GetKey(KeyCode.LeftShift) ? 200f : 120f;
+        }
 
-        speed = Input.GetKey(KeyCode.LeftShift) ? 8f : 7f;
-        Debug.Log(IsGrounded());
         if (Input.GetKeyDown(KeyCode.Space) && IsGrounded())
         {
             //Destroy(gameObject);
             rb.AddForce(Vector3.up * jump, ForceMode.Impulse);
         }
-
         targetDirection = targetDirection.normalized;
-        Debug.Log(targetDirection);
+        //Debug.Log(targetDirection);
         FpsLook();
         Move();
     }
 
     public void Move()
     {
-        float mod = speed * Time.deltaTime;
-        Vector3 movDirection = gameObject.transform.forward * verticalInput + gameObject.transform.right * horizontalInput;
-        rb.AddForce(movDirection.normalized * mod * 100f, ForceMode.Force);
+        Vector3 movDirection = gameObject.transform.forward * verticalInput; //+ gameObject.transform.right * horizontalInput;
+        rb.AddForce(movDirection.normalized * speed * 10f * Time.deltaTime, ForceMode.Force);
+        Debug.Log(Mathf.Clamp(rb.velocity.magnitude, 0, 5)/5);
+        animator.SetFloat("Blend", Mathf.Clamp(rb.velocity.magnitude, 0, 5) / 5);
+        
     }
     private void FpsLook()
     {
@@ -80,10 +91,10 @@ public class PlayerController : MonoBehaviour
         yCamRot += mouseX;
         xCamRot -= mouseY;
 
-        xCamRot = Mathf.Clamp(xCamRot, -90f, 90f);
+        xCamRot = Mathf.Clamp(xCamRot, -30f, 60f);
         //Apply Camera Rots
         cameraTarget.transform.rotation = Quaternion.Euler(xCamRot, yCamRot, 0);
-        transform.rotation = Quaternion.Euler(0, yCamRot, 0);
+        transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.Euler(0, yCamRot, 0), Time.deltaTime * 1f);
     }
 
 }
