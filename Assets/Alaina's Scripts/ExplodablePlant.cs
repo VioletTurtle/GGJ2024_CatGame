@@ -4,12 +4,13 @@ using UnityEngine;
 
 public class ExplodablePlant : MonoBehaviour
 {
-    [SerializeField] GrannyMovement grammy;
+    [SerializeField] CatLady grammy;
     void OnCollisionEnter(Collision collision){
         if (collision.gameObject.layer == 6)
         {
             Debug.Log("Plant hit the floor");
-            grammy.MoveGrammy();
+            grammy.currentState = CatLady.CatLadyState.Cleaning;
+            grammy.doClean();
         }
     }
 }
