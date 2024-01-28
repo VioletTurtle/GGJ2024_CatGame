@@ -6,9 +6,12 @@ using UnityEngine;
 public class EvilCat : MonoBehaviour
 {
     [SerializeField] Transform evilCat;
+    public float speed;
+
     [SerializeField] Animator _animator;
     void Start(){
         _animator = GetComponent<Animator>();
+        speed = 1.0f * Time.deltaTime;
     }
     public void MoveEvilCat(){
         _animator.SetTrigger("OnCatFoodDrop");

@@ -10,6 +10,7 @@ public class FloorCollision : MonoBehaviour
     void OnCollisionEnter(Collision collision){
         if (collision.gameObject.name == "Cat food")
         {
+            Debug.Log("I hit the floor");
             evilCat.MoveEvilCat();
         }
     }
