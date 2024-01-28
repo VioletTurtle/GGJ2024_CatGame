@@ -9,7 +9,6 @@ public class PlayerController : MonoBehaviour
     private Animator animator;
     public CharacterController characterController;
     public Camera cam;
-    private Vector3 targetDirection = Vector3.forward;
     private float speed = 0.05f;
     public Rigidbody rb;
     public GameObject cameraTarget;
@@ -24,6 +23,12 @@ public class PlayerController : MonoBehaviour
     //player control
     private float horizontalInput = 0;
     private float verticalInput = 0;
+    //Attack Vars
+    private bool attacking = false;
+    public CatAttackHitBox attackBox;
+
+    public void attackStart() { attackBox.enableBoxes(); }
+    public void attackEnd() { attackBox.disableBoxes(); }
 
     bool IsGrounded()
     {
@@ -45,9 +50,13 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
-        targetDirection = Vector3.zero;
         horizontalInput = Input.GetAxisRaw("Horizontal");
         verticalInput = Input.GetAxisRaw("Vertical");
+
+        if (Input.GetMouseButtonDown(0) && !attacking)
+        {
+            StartCoroutine(Attack());
+        }
 
         if (verticalInput < 0)
         {
@@ -68,25 +77,31 @@ public class PlayerController : MonoBehaviour
             //Destroy(gameObject);
             rb.AddForce(Vector3.up * jump, ForceMode.Impulse);
         }
-        targetDirection = targetDirection.normalized;
         //Debug.Log(targetDirection);
-        FpsLook();
-        Move();
+        if (!attacking)
+        {
+            Move();
+            FpsLook();
+        }
     }
 
     public void Move()
     {
-        Vector3 movDirection = gameObject.transform.forward * verticalInput; //+ gameObject.transform.right * horizontalInput;
+        Vector3 movDirection = gameObject.transform.forward * verticalInput;//+ gameObject.transform.right * horizontalInput;
         rb.AddForce(movDirection.normalized * speed * 10f * Time.deltaTime, ForceMode.Force);
         Debug.Log(Mathf.Clamp(rb.velocity.magnitude, 0, 5)/5);
         animator.SetFloat("Blend", Mathf.Clamp(rb.velocity.magnitude, 0, 5) / 5);
-        
+        if (rb.velocity.magnitude > 0)
+        {
+            //transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.Euler(0, yCamRot, 0), Time.deltaTime * 1f);
+        }
+
     }
     private void FpsLook()
     {
         //Calculate Camera Rots
-        float mouseX = Input.GetAxisRaw("Mouse X") * Time.deltaTime * sensitivityX;
-        float mouseY = Input.GetAxisRaw("Mouse Y") * Time.deltaTime * sensitivityY;
+        float mouseX = Input.GetAxis("Mouse X") * Time.deltaTime * sensitivityX;
+        float mouseY = Input.GetAxis("Mouse Y") * Time.deltaTime * sensitivityY;
 
         yCamRot += mouseX;
         xCamRot -= mouseY;
@@ -97,4 +112,12 @@ public class PlayerController : MonoBehaviour
         transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.Euler(0, yCamRot, 0), Time.deltaTime * 1f);
     }
 
+    IEnumerator Attack()
+    {
+        attacking = true;
+        animator.SetBool("isAttacking", true);
+        yield return new WaitForSeconds(1f);
+        attacking = false;
+        animator.SetBool("isAttacking", false);
+    }
 }
