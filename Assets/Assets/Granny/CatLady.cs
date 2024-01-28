@@ -1,7 +1,11 @@
+using JetBrains.Annotations;
+using Polyperfect.Common;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.SearchService;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.SceneManagement;
 
 public class CatLady : MonoBehaviour
 {
@@ -258,6 +262,13 @@ IEnumerator MoveToCleaningPoint(Vector3 targetPoint)
         {
             UpdateAnimator("IsIdle");
             //cm.Caught(this.gameObject, Target);
+        }
+    }
+    private void OnCollisionEnter(Collision collision)
+    {
+        if(collision.gameObject.tag == "Player")
+        {
+            SceneManager.LoadScene("House1");
         }
     }
 }
