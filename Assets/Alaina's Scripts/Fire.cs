@@ -21,6 +21,7 @@ public class Fire : MonoBehaviour
         decreaseSpeed = 0.5f;
     }
     void OnTriggerEnter(Collider collider){
+        Debug.Log("Trigger hit");
         if (collider.gameObject.name == "Vase")
         {
             stopEmission = true;
@@ -30,6 +31,7 @@ public class Fire : MonoBehaviour
                 playerController.ChimneyEscape();
             }
             else{ 
+                Debug.Log("fire hit");
                 playerController.BurnPlayer();
             }
             

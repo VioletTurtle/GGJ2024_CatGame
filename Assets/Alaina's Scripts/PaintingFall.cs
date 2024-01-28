@@ -16,7 +16,7 @@ public class PaintingFall : MonoBehaviour
         }
     }
     public void KnockDownPainting(){
-        paintingThatFalls.SetTrigger("StartPaintingFall");
+        paintingThatFalls.SetTrigger("PaintingFall");
         
     }
 }
