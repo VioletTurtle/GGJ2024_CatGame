@@ -14,16 +14,19 @@ public class EndGame : MonoBehaviour
         {
             EndGameScreen.SetActive(true);
             Cursor.lockState = CursorLockMode.None;
+            Time.timeScale = 0;
         }
     }
 
     public void restart()
     {
+        Time.timeScale = 1;
         SceneManager.LoadScene("House1");
     }
 
     public void mainMenu()
     {
+        Time.timeScale = 1;
         SceneManager.LoadScene("MainMenu");
     }
 }
