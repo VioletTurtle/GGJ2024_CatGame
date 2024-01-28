@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Floor
   - Cleaner
+  - end game
   layers:
   - Default
   - TransparentFX
@@ -15,7 +16,7 @@ TagManager:
   - UI
   - Ground
   - Wall
-  - 
+  - end game
   - 
   - 
   - 

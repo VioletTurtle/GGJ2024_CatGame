@@ -11,9 +11,10 @@ public class Fire : MonoBehaviour
     [SerializeField] float emissionRate;
     ParticleSystem.EmissionModule flameEmission;
     [SerializeField] PlayerController playerController;
-    
+     [SerializeField] GameObject escapeTrigger;
     void Start()
     {
+        escapeTrigger.SetActive(false);
         emissionRate = 80;
         flames = GetComponent<ParticleSystem>();
         flameEmission = flames.emission;
@@ -25,6 +26,7 @@ public class Fire : MonoBehaviour
         if (collider.gameObject.name == "Vase")
         {
             stopEmission = true;
+            escapeTrigger.SetActive(true);
         }
         if (collider.gameObject.tag == "Player"){
             if (stopEmission){
