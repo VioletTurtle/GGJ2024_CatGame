@@ -5,6 +5,7 @@ using UnityEngine;
 public class Destructables : MonoBehaviour
 {
     GameObject target;
+    public float cleanupTimer = 100f;
 
     public void DespawnCountDown(GameObject obj)
     {
@@ -13,9 +14,9 @@ public class Destructables : MonoBehaviour
 
     IEnumerator doit(GameObject obj)
     {
-        yield return new WaitForSeconds(100f);
+        yield return new WaitForSeconds(cleanupTimer);
         target = GameObject.Find(obj.name + "Fragments");
         Debug.Log(target.name);
-        Destroy(target, 5);
+        Destroy(target);
     }
 }
