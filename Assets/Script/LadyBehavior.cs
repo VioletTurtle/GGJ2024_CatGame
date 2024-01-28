@@ -15,11 +15,14 @@ public class LadyBehavior : MonoBehaviour
     private NavMeshAgent navMeshAgent;
     private int currentPatrolIndex = 0;
 
+    private Animator animator;
+
     void Start()
     {
         catTransform = Target.transform;
         navMeshAgent = GetComponent<NavMeshAgent>();
         SetNextPatrolDestination();
+        animator = GetComponent<Animator>();
     }
 
     void Update()
@@ -29,13 +32,16 @@ public class LadyBehavior : MonoBehaviour
             // Cat detected, start pursuit
             navMeshAgent.speed = patrolSpeed;
             navMeshAgent.SetDestination(catTransform.position);
+            animator.SetBool("IsRunning", true);
         }
         else
         {
             // Cat not detected, patrol the area
             navMeshAgent.speed = patrolSpeed;
+            animator.SetBool("IsWalking", true);
             if (!navMeshAgent.pathPending && navMeshAgent.remainingDistance < 0.5f)
             {
+                animator.SetBool("IsIdle", true);
                 SetNextPatrolDestination();
             }
         }
