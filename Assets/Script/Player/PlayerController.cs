@@ -48,6 +48,15 @@ public class PlayerController : MonoBehaviour
         rb = GetComponent<Rigidbody>();
     }
 
+    private void FixedUpdate()
+    {
+        //Debug.Log(targetDirection);
+        if (!attacking)
+        {
+            FpsLook();
+            Move();
+        }
+    }
     private void Update()
     {
         horizontalInput = Input.GetAxisRaw("Horizontal");
@@ -62,8 +71,13 @@ public class PlayerController : MonoBehaviour
         {
             verticalInput = 0;
         }
-
-        animator.SetBool("Grounded",IsGrounded());
+        if (Input.GetKeyDown(KeyCode.Space) && IsGrounded())
+        {
+            //Destroy(gameObject);
+            rb.AddForce(Vector3.up * jump, ForceMode.Impulse);
+        }
+        animator.SetBool("Grounded", IsGrounded());
+        Debug.Log(IsGrounded());
 
         if (!IsGrounded())
         {
@@ -72,18 +86,6 @@ public class PlayerController : MonoBehaviour
         else
         {
             speed = Input.GetKey(KeyCode.LeftShift) ? 2f : 1.3f;
-        }
-
-        if (Input.GetKeyDown(KeyCode.Space) && IsGrounded())
-        {
-            //Destroy(gameObject);
-            rb.AddForce(Vector3.up * jump, ForceMode.Impulse);
-        }
-        //Debug.Log(targetDirection);
-        if (!attacking)
-        {
-            Move();
-            FpsLook();
         }
     }
 
@@ -102,8 +104,8 @@ public class PlayerController : MonoBehaviour
     private void FpsLook()
     {
         //Calculate Camera Rots
-        float mouseX = Input.GetAxis("Mouse X") * Time.deltaTime * sensitivityX;
-        float mouseY = Input.GetAxis("Mouse Y") * Time.deltaTime * sensitivityY;
+        float mouseX = Input.GetAxisRaw("Mouse X") * Time.deltaTime * sensitivityX;
+        float mouseY = Input.GetAxisRaw("Mouse Y") * Time.deltaTime * sensitivityY;
 
         yCamRot += mouseX;
         xCamRot -= mouseY;
@@ -111,7 +113,7 @@ public class PlayerController : MonoBehaviour
         xCamRot = Mathf.Clamp(xCamRot, -30f, 60f);
         //Apply Camera Rots
         cameraTarget.transform.rotation = Quaternion.Euler(xCamRot, yCamRot, 0);
-        transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.Euler(0, yCamRot, 0), Time.deltaTime * 1f);
+        transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.Euler(0, yCamRot, 0), Time.deltaTime);
     }
 
     IEnumerator Attack()
