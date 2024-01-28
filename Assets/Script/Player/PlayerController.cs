@@ -14,7 +14,7 @@ public class PlayerController : MonoBehaviour
     //controls music
     private int chaosMeter = 0;
     private bool chaosAdded = false;
-    public ManyLoopPlayer dynamicPlayer;
+    public GameObject dynamicPlayer;
 
     //Camera Control
     private float sensitivityX = 100f;
@@ -56,7 +56,7 @@ public class PlayerController : MonoBehaviour
 
     public void MusicController()
     {
-        dynamicPlayer.setSongId(Mathf.Clamp(chaosMeter, 0, 10));
+        dynamicPlayer.GetComponent<ManyLoopPlayer>().setSongId(Mathf.Clamp(chaosMeter, 0, 10));
     }
 
     bool IsGrounded()
@@ -65,14 +65,21 @@ public class PlayerController : MonoBehaviour
         float groundCheckDist = 0.3f;
         float groundBuffer = 0.2f;
         RaycastHit hit;
-        Debug.DrawRay(transform.position + new Vector3(0, groundBuffer, -0.1f), new Vector3(0, -groundCheckDist, 0), Color.red);
-        return Physics.Raycast(transform.position + new Vector3(0, groundBuffer, -0.1f), Vector3.down, out hit, groundCheckDist);
+
+        Debug.DrawRay(transform.position + new Vector3(0, groundBuffer, 0.2f), new Vector3(0, -groundCheckDist, 0), Color.blue);
+        Debug.DrawRay(transform.position + new Vector3(0, groundBuffer, -0.2f), new Vector3(0, -groundCheckDist, 0), Color.green);
+        bool jointBool 
+            = (Physics.Raycast(transform.position + new Vector3(0, groundBuffer, -0.2f), Vector3.down, out hit, groundCheckDist) 
+            || Physics.Raycast(transform.position + new Vector3(0, groundBuffer, 0.2f), Vector3.down, out hit, groundCheckDist)) ||
+            Physics.Raycast(transform.position + new Vector3(-0.2f, groundBuffer, 0), Vector3.down, out hit, groundCheckDist) ||
+            Physics.Raycast(transform.position + new Vector3(0.2f, groundBuffer, 0), Vector3.down, out hit, groundCheckDist); 
+        return jointBool;
     }
 
     private void Awake()
     {
         //playerAnimator.gameObject.GetComponent<Animator>().enabled = false;
-        player.GetComponent<SkinnedMeshRenderer>().material = player.GetComponent<SkinnedMeshRenderer>().materials[0];
+        //player.GetComponent<SkinnedMeshRenderer>().material = player.GetComponent<SkinnedMeshRenderer>().materials[0];
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
         animator = GetComponent<Animator>();
@@ -117,7 +124,7 @@ public class PlayerController : MonoBehaviour
         }
         else
         {
-            speed = Input.GetKey(KeyCode.LeftShift) ? 2f : 1.3f;
+            speed = Input.GetKey(KeyCode.LeftShift) ? 2f : 1.4f;
         }
     }
 

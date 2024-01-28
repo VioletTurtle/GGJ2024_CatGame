@@ -104,7 +104,7 @@ GameObject:
   - component: {fileID: 2653389022466181278}
   m_Layer: 3
   m_Name: FollowTarget
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -200,7 +200,7 @@ GameObject:
   - component: {fileID: 1066488427760216632}
   m_Layer: 3
   m_Name: Virtual Camera
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -214,7 +214,7 @@ Transform:
   m_GameObject: {fileID: 1358879561455849365}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.70000005, z: -1.16}
+  m_LocalPosition: {x: 0, y: 0.7000001, z: -1.1600003}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -367,7 +367,7 @@ GameObject:
   - component: {fileID: 7598002180754015485}
   m_Layer: 3
   m_Name: Main
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1139,7 +1139,7 @@ GameObject:
   - component: {fileID: 3924937679637816530}
   m_Layer: 3
   m_Name: Geometry
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1206,7 +1206,7 @@ GameObject:
   - component: {fileID: 24528140250920762}
   m_Layer: 3
   m_Name: Main Camera
-  m_TagString: MainCamera
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1220,7 +1220,7 @@ Transform:
   m_GameObject: {fileID: 4640451690881068294}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.70000005, z: -1.16}
+  m_LocalPosition: {x: 0, y: 0.7000001, z: -1.1600003}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1821,7 +1821,7 @@ GameObject:
   - component: {fileID: 142102098855947242}
   m_Layer: 3
   m_Name: PlayerCat
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1996,7 +1996,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cameraTarget: {fileID: 1233105391821428214}
-  dynamicPlayer: {fileID: 0}
+  dynamicPlayer: {fileID: 5163799604628479253}
   virtualCamera: {fileID: 0}
   attackBox: {fileID: 9106781925981551986}
   player: {fileID: 0}
@@ -2510,6 +2510,12 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e159fdf3202db82479f9c05d2a2e18bd, type: 3}
+--- !u!1 &5163799604628479253 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4652352472066960611, guid: e159fdf3202db82479f9c05d2a2e18bd,
+    type: 3}
+  m_PrefabInstance: {fileID: 520721616835506678}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &7399975409603153883 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7027875879621328429, guid: e159fdf3202db82479f9c05d2a2e18bd,
