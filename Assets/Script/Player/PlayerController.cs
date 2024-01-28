@@ -139,28 +139,6 @@ public class PlayerController : MonoBehaviour
         rb.AddForce(movDirection.normalized * speed * 10f * Time.deltaTime, ForceMode.VelocityChange);
         //Debug.Log(Mathf.Clamp(rb.velocity.magnitude, 0, 5)/5);
         animator.SetFloat("Blend", Mathf.Clamp(rb.velocity.magnitude, 0, 5) / 5);
-        if (verticalInput > 0.1f && IsGrounded())
-        {
-<<<<<<< Updated upstream
-            //transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.Euler(0, yCamRot, 0), Time.deltaTime * 1f);
-            footstepPlayer.PlayFootsteps();
-=======
-            if (!stepController.playingFootsteps)
-            {
-                if (!Input.GetKey(KeyCode.LeftShift))
-                {
-                    stepController.PlayFootsteps();
-                    stepController.stepInterval = 15f / speed * 2;
-                }
-                else
-                {
-                    stepController.PlayFootsteps();
-                    stepController.stepInterval = 15f / speed / 2;
-                }
-            }
->>>>>>> Stashed changes
-        }
-        else { footstepPlayer.StopFootsteps(); }
 
     }
     private void FpsLook()

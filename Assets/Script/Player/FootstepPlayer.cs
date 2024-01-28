@@ -16,33 +16,13 @@ public class FootstepPlayer : MonoBehaviour
 
     public bool playingFootsteps;
 
-    private void Awake()
-    {
-    }
 
     // Start is called before the first frame update
-    void Start()
-    {
-        PlayFootsteps();   
-    }
 
     public void PlayFootsteps()
     {
         if (!playingFootsteps)
         {
-<<<<<<< Updated upstream
-            await Task.Delay(stepInterval);
-
-            int soundToPlay = Random.Range(0, sounds.Length);
-            float volumeToPlay = Random.Range(0.95f, 1);
-            float pitchToPlay = Random.Range(0.95f, 1.05f);
-            audioSource.clip = sounds[soundToPlay];
-            audioSource.volume = volumeToPlay;
-            audioSource.pitch = pitchToPlay;
-            audioSource.Play();
-
-=======
->>>>>>> Stashed changes
             playingFootsteps = true;
             StartCoroutine(PlayFootstep());
         }
