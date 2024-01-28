@@ -1,18 +1,30 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Security.Cryptography.X509Certificates;
+using Unity.Mathematics;
 using UnityEngine;
 
 public class ExplodableTV : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    private void OnCollisionEnter(Collision collision)
     {
-        
+        if(collision.gameObject.layer == 6)
+        {
+            /* void Explode()
+            {
+                var exp = GetComponent<ParticleSystem>();
+                exp.Play();
+                Destroy(gameObject);
+            }
+            //Debug.Log("tv on the floor"); */
+            
+        }
     }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    //on collision enter
+        //if collisioin.layer = (layer of the floor)
+            //print (tv on the floor)
+    //figure out waht to do to make tv shatter
+    //particle system, how to make object shatter in unity, animation
+    //before destroy game.object       
+    //try to leave particles
 }
