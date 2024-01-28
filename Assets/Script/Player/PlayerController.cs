@@ -25,6 +25,12 @@ public class PlayerController : MonoBehaviour
     private bool attacking = false;
     public CatAttackHitBox attackBox;
 
+    //Alaina's code
+    [SerializeField] GameObject player;
+    [SerializeField] Material redMaterial;
+    [SerializeField] Material originalMaterial;
+    [SerializeField] Animator playerAnimator;
+
     public void attackStart() { attackBox.enableBoxes(); }
     public void attackEnd() { attackBox.disableBoxes(); }
 
@@ -40,6 +46,8 @@ public class PlayerController : MonoBehaviour
 
     private void Awake()
     {
+        playerAnimator.gameObject.GetComponent<Animator>().enabled = false;
+        player.GetComponent<MeshRenderer>().material = player.GetComponent<MeshRenderer>().materials[0];
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
         animator = GetComponent<Animator>();
@@ -112,6 +120,24 @@ public class PlayerController : MonoBehaviour
         //Apply Camera Rots
         cameraTarget.transform.rotation = Quaternion.Euler(xCamRot, yCamRot, 0);
         transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.Euler(0, yCamRot, 0), Time.deltaTime);
+    }
+    public void BurnPlayer()
+    {
+        player.GetComponent<MeshRenderer>().material = redMaterial;
+    }
+    public void StopBurnPlayer()
+    {
+        player.GetComponent<MeshRenderer>().material = originalMaterial;
+    }
+    public void ChimneyEscape()
+    {
+        playerAnimator.gameObject.GetComponent<Animator>().enabled = true;
+        playerAnimator.SetTrigger("ChimneyEscape");
+    }
+    void OnTriggerExit(Collider other)
+    {
+        Debug.Log("I work");
+        StopBurnPlayer();
     }
 
     IEnumerator Attack()
