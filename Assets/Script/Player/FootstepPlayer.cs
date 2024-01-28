@@ -41,7 +41,6 @@ public class FootstepPlayer : MonoBehaviour
             audioSource.volume = volumeToPlay;
             audioSource.pitch = pitchToPlay;
             audioSource.Play();
-            
 
             playingFootsteps = true;
         }

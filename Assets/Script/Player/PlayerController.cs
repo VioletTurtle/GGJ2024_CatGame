@@ -11,10 +11,12 @@ public class PlayerController : MonoBehaviour
     private Rigidbody rb;
     public GameObject cameraTarget;
     private float jump = 6f;
-    //controls music
+    
+    //controls audio
     private int chaosMeter = 0;
     private bool chaosAdded = false;
     public GameObject dynamicPlayer;
+    public FootstepPlayer footstepPlayer;
 
     //Camera Control
     private float sensitivityX = 100f;
@@ -84,6 +86,7 @@ public class PlayerController : MonoBehaviour
         Cursor.visible = false;
         animator = GetComponent<Animator>();
         rb = GetComponent<Rigidbody>();
+        footstepPlayer = GetComponentInChildren<FootstepPlayer>();
         StartCoroutine(tooCalm());
     }
 
@@ -116,7 +119,7 @@ public class PlayerController : MonoBehaviour
             rb.AddForce(Vector3.up * jump, ForceMode.Impulse);
         }
         animator.SetBool("Grounded", IsGrounded());
-        Debug.Log(IsGrounded());
+        //Debug.Log(IsGrounded());
 
         if (!IsGrounded())
         {
@@ -137,7 +140,9 @@ public class PlayerController : MonoBehaviour
         if (rb.velocity.magnitude > 0)
         {
             //transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.Euler(0, yCamRot, 0), Time.deltaTime * 1f);
+            footstepPlayer.PlayFootsteps();
         }
+        else { footstepPlayer.StopFootsteps(); }
 
     }
     private void FpsLook()
