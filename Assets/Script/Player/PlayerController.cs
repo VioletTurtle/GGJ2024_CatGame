@@ -63,13 +63,15 @@ public class PlayerController : MonoBehaviour
             verticalInput = 0;
         }
 
+        animator.SetBool("Grounded",IsGrounded());
+
         if (!IsGrounded())
         {
-            speed = Input.GetKey(KeyCode.LeftShift) ? 60f : 40f;
+            speed = Input.GetKey(KeyCode.LeftShift) ? 1f : 0.5f;
         }
         else
         {
-            speed = Input.GetKey(KeyCode.LeftShift) ? 200f : 120f;
+            speed = Input.GetKey(KeyCode.LeftShift) ? 2f : 1.3f;
         }
 
         if (Input.GetKeyDown(KeyCode.Space) && IsGrounded())
@@ -88,7 +90,7 @@ public class PlayerController : MonoBehaviour
     public void Move()
     {
         Vector3 movDirection = gameObject.transform.forward * verticalInput;//+ gameObject.transform.right * horizontalInput;
-        rb.AddForce(movDirection.normalized * speed * 10f * Time.deltaTime, ForceMode.Force);
+        rb.AddForce(movDirection.normalized * speed * 10f * Time.deltaTime, ForceMode.VelocityChange);
         Debug.Log(Mathf.Clamp(rb.velocity.magnitude, 0, 5)/5);
         animator.SetFloat("Blend", Mathf.Clamp(rb.velocity.magnitude, 0, 5) / 5);
         if (rb.velocity.magnitude > 0)
