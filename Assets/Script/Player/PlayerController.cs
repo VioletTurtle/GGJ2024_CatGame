@@ -11,6 +11,10 @@ public class PlayerController : MonoBehaviour
     private Rigidbody rb;
     public GameObject cameraTarget;
     private float jump = 6f;
+    //controls music
+    private int chaosMeter = 0;
+    private bool chaosAdded = false;
+    public ManyLoopPlayer dynamicPlayer;
 
     //Camera Control
     private float sensitivityX = 100f;
@@ -34,6 +38,27 @@ public class PlayerController : MonoBehaviour
     public void attackStart() { attackBox.enableBoxes(); }
     public void attackEnd() { attackBox.disableBoxes(); }
 
+    public void moarchaos()
+    {
+        chaosMeter++;
+    }
+    IEnumerator tooCalm()
+    {
+        while (true)
+        {
+            if (!chaosAdded && chaosMeter > 5)
+            {
+                chaosMeter--;
+            }
+            yield return new WaitForSeconds(10f);
+        }
+    }
+
+    public void MusicController()
+    {
+        dynamicPlayer.setSongId(Mathf.Clamp(chaosMeter, 0, 10));
+    }
+
     bool IsGrounded()
     {
         speed = 30f;
@@ -52,6 +77,7 @@ public class PlayerController : MonoBehaviour
         Cursor.visible = false;
         animator = GetComponent<Animator>();
         rb = GetComponent<Rigidbody>();
+        StartCoroutine(tooCalm());
     }
 
     private void FixedUpdate()

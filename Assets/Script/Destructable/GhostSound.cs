@@ -7,6 +7,6 @@ public class GhostSound : MonoBehaviour
     private void Awake()
     {
         Destroy(gameObject, 5);
-
+        GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>().moarchaos();
     }
 }

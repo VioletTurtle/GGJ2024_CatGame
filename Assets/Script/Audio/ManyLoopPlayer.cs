@@ -9,6 +9,11 @@ public class ManyLoopPlayer : MonoBehaviour
     [SerializeField]
     private int songId = 0;
 
+    public void setSongId(int i)
+    {
+        songId = i;
+    }
+
     void Start()
     {
         this.player.Play();
