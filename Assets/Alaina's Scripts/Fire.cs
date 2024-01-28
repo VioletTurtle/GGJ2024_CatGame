@@ -10,7 +10,7 @@ public class Fire : MonoBehaviour
     [SerializeField] float decreaseSpeed;
     [SerializeField] float emissionRate;
     ParticleSystem.EmissionModule flameEmission;
-    [SerializeField] Playermovement playermovement;
+    [SerializeField] PlayerController playerController;
     
     void Start()
     {
@@ -25,12 +25,12 @@ public class Fire : MonoBehaviour
         {
             stopEmission = true;
         }
-        if (collider.gameObject.name == "Player"){
+        if (collider.gameObject.tag == "Player"){
             if (stopEmission){
-                playermovement.ChimneyEscape();
+                playerController.ChimneyEscape();
             }
             else{ 
-                playermovement.burnPlayer();
+                playerController.BurnPlayer();
             }
             
         }

@@ -29,7 +29,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] GameObject player;
     [SerializeField] Material redMaterial;
     [SerializeField] Material originalMaterial;
-    [SerializeField] Animator playerAnimator;
+    //[SerializeField] Animator playerAnimator;
 
     public void attackStart() { attackBox.enableBoxes(); }
     public void attackEnd() { attackBox.disableBoxes(); }
@@ -46,8 +46,8 @@ public class PlayerController : MonoBehaviour
 
     private void Awake()
     {
-        playerAnimator.gameObject.GetComponent<Animator>().enabled = false;
-        player.GetComponent<MeshRenderer>().material = player.GetComponent<MeshRenderer>().materials[0];
+        //playerAnimator.gameObject.GetComponent<Animator>().enabled = false;
+        player.GetComponent<SkinnedMeshRenderer>().material = player.GetComponent<SkinnedMeshRenderer>().materials[0];
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
         animator = GetComponent<Animator>();
@@ -123,16 +123,16 @@ public class PlayerController : MonoBehaviour
     }
     public void BurnPlayer()
     {
-        player.GetComponent<MeshRenderer>().material = redMaterial;
+        player.GetComponent<SkinnedMeshRenderer>().material = redMaterial;
     }
     public void StopBurnPlayer()
     {
-        player.GetComponent<MeshRenderer>().material = originalMaterial;
+        player.GetComponent<SkinnedMeshRenderer>().material = originalMaterial;
     }
     public void ChimneyEscape()
     {
-        playerAnimator.gameObject.GetComponent<Animator>().enabled = true;
-        playerAnimator.SetTrigger("ChimneyEscape");
+        //playerAnimator.gameObject.GetComponent<Animator>().enabled = true;
+        //playerAnimator.SetTrigger("ChimneyEscape");
     }
     void OnTriggerExit(Collider other)
     {
