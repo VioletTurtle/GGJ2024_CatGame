@@ -305,13 +305,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 665660420}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 3.2987394, y: 38.100002, z: 0.89348304}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.70000076, z: -1.16}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1186719383}
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 1601157328}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1186719382
 GameObject:
@@ -547,12 +547,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1475238141}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 3.2987394, y: 38.100002, z: 0.89348304}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.70000076, z: -1.16}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 1601157328}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1584754508
 GameObject:
@@ -789,9 +789,23 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
-    m_AddedGameObjects: []
+    m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: 2636824389507504369, guid: 7b1c3f935b5cb6f429d3006d69de6762,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 665660422}
+    - targetCorrespondingSourceObject: {fileID: 2636824389507504369, guid: 7b1c3f935b5cb6f429d3006d69de6762,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1475238146}
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7b1c3f935b5cb6f429d3006d69de6762, type: 3}
+--- !u!4 &1601157328 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 2636824389507504369, guid: 7b1c3f935b5cb6f429d3006d69de6762,
+    type: 3}
+  m_PrefabInstance: {fileID: 1601157327}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1797731416 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2653389022466181278, guid: 7b1c3f935b5cb6f429d3006d69de6762,
@@ -805,5 +819,3 @@ SceneRoots:
   - {fileID: 434036721}
   - {fileID: 1584754512}
   - {fileID: 1601157327}
-  - {fileID: 665660422}
-  - {fileID: 1475238146}
