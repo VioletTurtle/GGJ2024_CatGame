@@ -25,7 +25,7 @@ public class CatLady : MonoBehaviour
     public Transform cleanEnd;
     public Transform start;
     public float detectionRadius = 10f;
-    public float detectionAngle = 45f;
+    public float detectionAngle = 90f;
     public float patrolSpeed = 2f;
     public float runSpeed = 4f;
     public float minIdleTime = 2f;
