@@ -1,34 +1,44 @@
 using Cinemachine;
+using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
 public class PlayerController : MonoBehaviour
 {
-    private Animator animator;
-    private float speed = 0.05f;
-    private Rigidbody rb;
-    public GameObject cameraTarget;
-    private float jump = 6f;
-    
-    //controls audio
-    private int chaosMeter = 0;
-    private bool chaosAdded = false;
-    public GameObject dynamicPlayer;
+    [Header("Audio")]
+    public ManyLoopPlayer dynamicPlayer;
     public FootstepPlayer footstepPlayer;
+    //controls audio
 
     //Camera Control
-    private float sensitivityX = 100f;
-    private float sensitivityY = 100f;
-    public CinemachineVirtualCamera virtualCamera;
+
+    [Header("Camera")]
+    public GameObject cameraTarget;
+    public Camera mainCamera;
+    public CinemachineFreeLook virtualCamera;
     private float yCamRot;
     private float xCamRot;
+    private float sensitivityX = 100f;
+    private float sensitivityY = 100f;
+
+    private Animator animator;
+    private float speed = 1f; //Old value 0.05f
+    private Rigidbody rb;
+    private float jump = 6f;
+
+    public Transform orientation;
+
     //player control
     private float horizontalInput = 0;
     private float verticalInput = 0;
     //Attack Vars
     private bool attacking = false;
+
+    [Header("Other")]
     public CatAttackHitBox attackBox;
 
     //Alaina's code
@@ -39,28 +49,40 @@ public class PlayerController : MonoBehaviour
     //Audio Scripts
     public FootstepPlayer stepController;
 
+    [Header("Chaos Meter")]
+    private int chaosMeter = 0;
+    private bool chaosAdded = false;
+    private int chaosMin = 0;
+    private int chaosMax = 8;
+    private bool _canAddChaos;
+
+    private bool _isWalking;
+    private bool _isRunning;
+
     public void attackStart() { attackBox.enableBoxes(); }
     public void attackEnd() { attackBox.disableBoxes(); }
 
-    public void moarchaos()
+    public void AddChaos()
     {
-        chaosMeter++;
+        if (_isRunning) chaosMin = 1;
+            chaosMeter++;
+        MusicController();
     }
-    IEnumerator tooCalm()
+    private async void DoChaosDecay()
     {
         while (true)
         {
-            if (!chaosAdded && chaosMeter > 5)
+            await Task.Delay(10000);
+            if (chaosMeter > chaosMin)
             {
                 chaosMeter--;
             }
-            yield return new WaitForSeconds(10f);
         }
     }
 
     public void MusicController()
     {
-        dynamicPlayer.GetComponent<ManyLoopPlayer>().setSongId(Mathf.Clamp(chaosMeter, 0, 10));
+        dynamicPlayer.setSongId(Mathf.Clamp(chaosMeter, chaosMin, chaosMax));
     }
 
     bool IsGrounded()
@@ -89,7 +111,7 @@ public class PlayerController : MonoBehaviour
         animator = GetComponent<Animator>();
         rb = GetComponent<Rigidbody>();
         footstepPlayer = GetComponentInChildren<FootstepPlayer>();
-        StartCoroutine(tooCalm());
+        DoChaosDecay();
     }
 
     private void FixedUpdate()
@@ -129,31 +151,67 @@ public class PlayerController : MonoBehaviour
         }
         else
         {
-            speed = Input.GetKey(KeyCode.LeftShift) ? 2f : 1.4f;
+            if (Input.GetKey(KeyCode.LeftShift))
+            {
+                speed = 2f;
+                _isRunning = true;
+                chaosMax = 1;
+                AddChaos();
+                Debug.Log("Running");
+            }
+            else
+            {
+                speed = 1.4f;
+                _isRunning = false;
+            }
         }
     }
 
     public void Move()
     {
-        Vector3 movDirection = gameObject.transform.forward * verticalInput;//+ gameObject.transform.right * horizontalInput;
+        Vector3 movDirection = gameObject.transform.forward * verticalInput + gameObject.transform.right * horizontalInput;
         rb.AddForce(movDirection.normalized * speed * 10f * Time.deltaTime, ForceMode.VelocityChange);
         //Debug.Log(Mathf.Clamp(rb.velocity.magnitude, 0, 5)/5);
-        animator.SetFloat("Blend", Mathf.Clamp(rb.velocity.magnitude, 0, 5) / 5);
+        
+        /*
+        Vector3 viewDir = transform.position - 
+            new Vector3(virtualCamera.transform.position.x, 
+            virtualCamera.transform.position.y, 
+            virtualCamera.transform.position.z);
+        orientation.forward = viewDir.normalized;
+        Vector3 inputDir = orientation.forward * verticalInput + orientation.right * horizontalInput;
 
+        if (inputDir != Vector3.zero) 
+        {
+            transform.forward = Vector3.Slerp(transform.forward, inputDir.normalized, Time.deltaTime * 30f);
+        }
+        */
+
+        animator.SetFloat("Blend", Mathf.Clamp(rb.velocity.magnitude, 0, 5) / 5);
     }
+
+
     private void FpsLook()
     {
         //Calculate Camera Rots
         float mouseX = Input.GetAxisRaw("Mouse X") * Time.deltaTime * sensitivityX;
         float mouseY = Input.GetAxisRaw("Mouse Y") * Time.deltaTime * sensitivityY;
 
+        
         yCamRot += mouseX;
-        xCamRot -= mouseY;
+        //xCamRot -= mouseY;
 
         xCamRot = Mathf.Clamp(xCamRot, -30f, 60f);
+        
         //Apply Camera Rots
-        cameraTarget.transform.rotation = Quaternion.Euler(xCamRot, yCamRot, 0);
-        transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.Euler(0, yCamRot, 0), Time.deltaTime);
+        //cameraTarget.transform.rotation = Quaternion.Euler(xCamRot, yCamRot, 0);
+        //transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.Euler(0, yCamRot, 0), Time.deltaTime);
+
+        Vector3 camRotation = mainCamera.transform.rotation.eulerAngles;
+        Vector3 targetRotation = new Vector3(xCamRot, yCamRot, 0);
+        cameraTarget.transform.DORotate(targetRotation, 0.3f);
+        transform.DORotate(new Vector3(transform.rotation.x, yCamRot, transform.rotation.z), 0.3f, RotateMode.Fast);
+
     }
     public void BurnPlayer()
     {
