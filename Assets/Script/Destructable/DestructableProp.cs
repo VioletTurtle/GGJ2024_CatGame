@@ -1,3 +1,4 @@
+using MoreMountains.Feedbacks;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
@@ -15,7 +16,7 @@ public class DestructableProp : MonoBehaviour
                                 //small items, large items, melee items, etc.
     public GameObject itemInContainer;
 
-    [Header("Prop Dynamics")]
+    [Header("Force Limits")]
     //Configurable force limits per material
     public float forceToBreak;
     public float fallDistanceToBreak;
@@ -29,6 +30,7 @@ public class DestructableProp : MonoBehaviour
     //Chance for each piece of debris to despawn
     [Range(0, 100)]
     public int debrisDecayChance;
+    public float forceMagnitude = 1;
 
     [Header("Components")]
     public Fracture fractureScript;
@@ -36,6 +38,7 @@ public class DestructableProp : MonoBehaviour
     //public Rigidbody[] pieces;
     public Rigidbody[] fragments;
     public Rigidbody rigidBody;
+    public MMF_Player breakFeedbacks;
     private BoxCollider collider;
 
     //Motion and Force
@@ -44,7 +47,6 @@ public class DestructableProp : MonoBehaviour
     private float _distanceFallen;
     private Vector2 _dirLastCollision;
     private Vector2 _lastFramePosition;
-    private float forceMagnitude = 1000f;
 
     [Header("Debug and Gizmos")]
     public bool debug;
@@ -56,7 +58,7 @@ public class DestructableProp : MonoBehaviour
         fractureScript = GetComponent<Fracture>();
         fragments = GetComponentsInChildren<Rigidbody>();
         rigidBody = GetComponent<Rigidbody>();
-        parentObject = transform.parent.gameObject;
+        //parentObject = transform.parent.gameObject;
     }
 
     // Start is called before the first frame update
@@ -73,8 +75,11 @@ public class DestructableProp : MonoBehaviour
     
     void Destruct()
     {
+        breakFeedbacks.transform.SetParent(parentObject.transform);
+        parentObject.transform.position = transform.position;
+        breakFeedbacks.PlayFeedbacks();
         fractureScript.CauseFracture();
-        //ApplyForceToFragments(_dirLastCollision);
+        //ApplyForceToFragments();
     }
 
     //Adds force to debris props with respect
@@ -101,9 +106,7 @@ public class DestructableProp : MonoBehaviour
             forceMultiplier = Random.Range(1, 5);
 
             // Apply force & torque to child objects
-            piece.AddForce(_dirLastCollision
-                * (forceMagnitude * forceMultiplier),
-                ForceMode.Impulse);
+            //piece.AddForce(_dirLastCollision * (forceMagnitude * forceMultiplier), ForceMode.Impulse);
             
             //Needs to be converted to 3D before this is reenabled
             //piece.AddTorque(torque, ForceMode.Impulse);

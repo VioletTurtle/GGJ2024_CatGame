@@ -40,6 +40,7 @@ public class PlayerController : MonoBehaviour
 
     [Header("Other")]
     public CatAttackHitBox attackBox;
+    public TrailRenderer attackTrail;
 
     //Alaina's code
     [SerializeField] GameObject player;
@@ -111,6 +112,7 @@ public class PlayerController : MonoBehaviour
         animator = GetComponent<Animator>();
         rb = GetComponent<Rigidbody>();
         footstepPlayer = GetComponentInChildren<FootstepPlayer>();
+        attackTrail.emitting = false;
         DoChaosDecay();
     }
 
@@ -235,9 +237,11 @@ public class PlayerController : MonoBehaviour
     IEnumerator Attack()
     {
         attacking = true;
+        if (IsGrounded()) attackTrail.emitting = true;
         animator.SetBool("isAttacking", true);
         yield return new WaitForSeconds(1f);
         attacking = false;
+        attackTrail.emitting = false;
         animator.SetBool("isAttacking", false);
     }
 }
