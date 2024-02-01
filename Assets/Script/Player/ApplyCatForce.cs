@@ -21,7 +21,8 @@ public class ApplyCatForce : MonoBehaviour
             //Debug.Log("triggers");
             Vector3 dir = collision.transform.position - player.transform.position;
             collision.rigidbody.AddForce(dir.normalized * power, ForceMode.Impulse);
-            collision.rigidbody.AddTorque(Vector3.forward, ForceMode.Impulse);
+            Vector3 hitSpin = new Vector3(dir.x * 0.1f, 0f, 0);
+            collision.rigidbody.AddTorque(hitSpin, ForceMode.Impulse);
             hitParticles.Play();
         }
     }

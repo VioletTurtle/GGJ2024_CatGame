@@ -76,9 +76,9 @@ public class DestructableProp : MonoBehaviour
     void Destruct()
     {
         breakFeedbacks.transform.SetParent(parentObject.transform);
-        parentObject.transform.position = transform.position;
         breakFeedbacks.PlayFeedbacks();
         fractureScript.CauseFracture();
+        parentObject.transform.position = transform.position;
         //ApplyForceToFragments();
     }
 
@@ -106,7 +106,7 @@ public class DestructableProp : MonoBehaviour
             forceMultiplier = Random.Range(1, 5);
 
             // Apply force & torque to child objects
-            //piece.AddForce(_dirLastCollision * (forceMagnitude * forceMultiplier), ForceMode.Impulse);
+            piece.AddForce(_dirLastCollision * (forceMagnitude * forceMultiplier), ForceMode.Impulse);
             
             //Needs to be converted to 3D before this is reenabled
             //piece.AddTorque(torque, ForceMode.Impulse);

@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEditor;
 using UnityEngine;
+using MoreMountains.Feedbacks;
 using UnityEngine.EventSystems;
 
 public class PlayerController : MonoBehaviour
@@ -38,10 +39,6 @@ public class PlayerController : MonoBehaviour
     //Attack Vars
     private bool attacking = false;
 
-    [Header("Other")]
-    public CatAttackHitBox attackBox;
-    public TrailRenderer attackTrail;
-
     //Alaina's code
     [SerializeField] GameObject player;
     [SerializeField] Material redMaterial;
@@ -59,6 +56,13 @@ public class PlayerController : MonoBehaviour
 
     private bool _isWalking;
     private bool _isRunning;
+
+    [Header("Feedbacks")]
+    public MMF_Player jumpFeedbacks;
+
+    [Header("Other")]
+    public CatAttackHitBox attackBox;
+    public TrailRenderer attackTrail;
 
     public void attackStart() { attackBox.enableBoxes(); }
     public void attackEnd() { attackBox.disableBoxes(); }
@@ -142,6 +146,7 @@ public class PlayerController : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Space) && IsGrounded())
         {
             //Destroy(gameObject);
+            jumpFeedbacks.PlayFeedbacks();
             rb.AddForce(Vector3.up * jump, ForceMode.Impulse);
         }
         animator.SetBool("Grounded", IsGrounded());
