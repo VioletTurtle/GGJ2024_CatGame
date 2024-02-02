@@ -164,7 +164,7 @@ public class PlayerController : MonoBehaviour
                 _isRunning = true;
                 chaosMax = 1;
                 AddChaos();
-                Debug.Log("Running");
+                //Debug.Log("Running");
             }
             else
             {

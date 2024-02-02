@@ -6,7 +6,6 @@ TagManager:
   tags:
   - Floor
   - Cleaner
-  - end game
   layers:
   - Default
   - TransparentFX
@@ -17,10 +16,10 @@ TagManager:
   - Ground
   - Wall
   - end game
-  - 
-  - 
-  - 
-  - 
+  - Debris
+  - Wood
+  - Metal
+  - Ceramic
   - 
   - 
   - 
