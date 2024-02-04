@@ -31,8 +31,6 @@ public class PlayerController : MonoBehaviour
     private Rigidbody rb;
     private float jump = 6f;
 
-    public Transform orientation;
-
     //player control
     private float horizontalInput = 0;
     private float verticalInput = 0;
@@ -40,7 +38,7 @@ public class PlayerController : MonoBehaviour
     private bool attacking = false;
 
     //Alaina's code
-    [SerializeField] GameObject player;
+
     [SerializeField] Material redMaterial;
     [SerializeField] Material originalMaterial;
 
@@ -57,15 +55,63 @@ public class PlayerController : MonoBehaviour
     private bool _isWalking;
     private bool _isRunning;
 
-    [Header("Feedbacks")]
+    [Header("Visual Feedback")]
     public MMF_Player jumpFeedbacks;
+    public MMF_Player runFeedbacks;
+    public ParticleSystem runParticles;
 
     [Header("Other")]
     public CatAttackHitBox attackBox;
     public TrailRenderer attackTrail;
 
+    [Header("Looking")]
+    public Transform player;
+    public Transform playerObj;
+    public Transform orientation;
+
+    public float rotationSpeed;
+    public GameObject thirdPersonCam;
+
+    public CameraStyle currentStyle;
+    public enum CameraStyle
+    {
+        Basic,
+        Combat,
+        Topdown
+    }
+
+    [Header("Movement")]
+    public float moveSpeed;
+
+    public float groundDrag;
+
+    public float jumpForce;
+    public float jumpCooldown;
+    public float airMultiplier;
+    bool readyToJump;
+
+    [HideInInspector] public float walkSpeed;
+    [HideInInspector] public float sprintSpeed;
+
+    [Header("Keybinds")]
+    public KeyCode jumpKey = KeyCode.Space;
+
+    [Header("Ground Check")]
+    public float playerHeight;
+    public LayerMask whatIsGround;
+    bool grounded;
+
+    Vector3 moveDirection;
+
     public void attackStart() { attackBox.enableBoxes(); }
     public void attackEnd() { attackBox.disableBoxes(); }
+
+    private void Start()
+    {
+        //For the new movement
+        rb.freezeRotation = true;
+        readyToJump = true;
+    }
 
     public void AddChaos()
     {
@@ -125,24 +171,23 @@ public class PlayerController : MonoBehaviour
         //Debug.Log(targetDirection);
         if (!attacking)
         {
-            FpsLook();
-            Move();
+            //MoveLegacy();
+            //FpsLookLegacy();
+            //HandleLooking();
+            HandleMovement();
         }
     }
     private void Update()
     {
+        /*
         horizontalInput = Input.GetAxisRaw("Horizontal");
         verticalInput = Input.GetAxisRaw("Vertical");
-
-        if (Input.GetMouseButtonDown(0) && !attacking)
-        {
-            StartCoroutine(Attack());
-        }
 
         if (verticalInput < 0)
         {
             verticalInput = 0;
         }
+
         if (Input.GetKeyDown(KeyCode.Space) && IsGrounded())
         {
             //Destroy(gameObject);
@@ -172,33 +217,104 @@ public class PlayerController : MonoBehaviour
                 _isRunning = false;
             }
         }
+        */
+
+        if (Input.GetMouseButtonDown(0) && !attacking)
+        {
+            StartCoroutine(Attack());
+        }
+
+        // ground check
+        Vector3 raycastStart = new Vector3(transform.position.x, transform.position.y + 0.05f, transform.position.z);
+        grounded = Physics.Raycast(raycastStart, Vector3.down, playerHeight * 0.5f + 0.3f, whatIsGround);
+
+        GatherInput();
+        SpeedControl();
+
+        // handle drag
+        if (grounded)
+            rb.drag = groundDrag;
+        else
+            rb.drag = 0;
     }
 
-    public void Move()
+    void GatherInput()
+    {
+        horizontalInput = Input.GetAxisRaw("Horizontal");
+        verticalInput = Input.GetAxisRaw("Vertical");
+
+        // when to jump
+        if (Input.GetKey(jumpKey) && readyToJump && IsGrounded())
+        {
+            readyToJump = false;
+
+            Jump();
+
+            Invoke(nameof(ResetJump), jumpCooldown);
+        }
+    }
+
+    private void HandleMovement()
+    {
+        // calculate movement direction
+        moveDirection = orientation.forward * verticalInput + orientation.right * horizontalInput;
+
+        // on ground
+        if (IsGrounded())
+        {
+            //animator.SetBool("Grounded", true);
+            animator.SetFloat("Blend", Mathf.Clamp(rb.velocity.magnitude, 0, 5) / 5);
+            rb.AddForce(moveDirection.normalized * moveSpeed * 10f, ForceMode.Force);
+
+            if (moveDirection.magnitude > 0 && !runParticles.isPlaying) runParticles.Play();
+            else if (runParticles.isPlaying && moveDirection.magnitude == 0) runParticles.Stop();
+        }  
+
+        // in air
+        else if (!IsGrounded())
+        {
+            if (runParticles.isPlaying) runParticles.Stop();
+            rb.AddForce(moveDirection.normalized * moveSpeed * 10f * airMultiplier, ForceMode.Force);
+        }
+
+        animator.SetBool("Grounded", IsGrounded());
+    }
+
+    private void SpeedControl()
+    {
+        Vector3 flatVel = new Vector3(rb.velocity.x, 0f, rb.velocity.z);
+
+        // limit velocity if needed
+        if (flatVel.magnitude > moveSpeed)
+        {
+            Vector3 limitedVel = flatVel.normalized * moveSpeed;
+            rb.velocity = new Vector3(limitedVel.x, rb.velocity.y, limitedVel.z);
+        }
+    }
+
+    private void Jump()
+    {
+        // reset y velocity
+        rb.velocity = new Vector3(rb.velocity.x, 0f, rb.velocity.z);
+
+        rb.AddForce(transform.up * jumpForce, ForceMode.Impulse);
+        jumpFeedbacks.PlayFeedbacks();
+    }
+    private void ResetJump()
+    {
+        readyToJump = true;
+    }
+
+    public void MoveLegacy()
     {
         Vector3 movDirection = gameObject.transform.forward * verticalInput + gameObject.transform.right * horizontalInput;
-        rb.AddForce(movDirection.normalized * speed * 10f * Time.deltaTime, ForceMode.VelocityChange);
+        rb.AddForce(movDirection.normalized * speed * 10f * Time.deltaTime, ForceMode.Force);
         //Debug.Log(Mathf.Clamp(rb.velocity.magnitude, 0, 5)/5);
-        
-        /*
-        Vector3 viewDir = transform.position - 
-            new Vector3(virtualCamera.transform.position.x, 
-            virtualCamera.transform.position.y, 
-            virtualCamera.transform.position.z);
-        orientation.forward = viewDir.normalized;
-        Vector3 inputDir = orientation.forward * verticalInput + orientation.right * horizontalInput;
-
-        if (inputDir != Vector3.zero) 
-        {
-            transform.forward = Vector3.Slerp(transform.forward, inputDir.normalized, Time.deltaTime * 30f);
-        }
-        */
 
         animator.SetFloat("Blend", Mathf.Clamp(rb.velocity.magnitude, 0, 5) / 5);
     }
 
-
-    private void FpsLook()
+    private void FpsLookLegacy()
     {
         //Calculate Camera Rots
         float mouseX = Input.GetAxisRaw("Mouse X") * Time.deltaTime * sensitivityX;
@@ -218,8 +334,8 @@ public class PlayerController : MonoBehaviour
         Vector3 targetRotation = new Vector3(xCamRot, yCamRot, 0);
         cameraTarget.transform.DORotate(targetRotation, 0.3f);
         transform.DORotate(new Vector3(transform.rotation.x, yCamRot, transform.rotation.z), 0.3f, RotateMode.Fast);
-
     }
+
     public void BurnPlayer()
     {
         player.GetComponent<SkinnedMeshRenderer>().material = redMaterial;
@@ -244,7 +360,7 @@ public class PlayerController : MonoBehaviour
         attacking = true;
         if (IsGrounded()) attackTrail.emitting = true;
         animator.SetBool("isAttacking", true);
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(0.5f);
         attacking = false;
         attackTrail.emitting = false;
         animator.SetBool("isAttacking", false);

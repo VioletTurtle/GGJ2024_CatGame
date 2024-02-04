@@ -5696,9 +5696,9 @@ MonoBehaviour:
   containsItem: 0
   itemCategory: 0
   itemInContainer: {fileID: 0}
-  forceToBreak: 2.5
+  forceToBreak: 3.5
   fallDistanceToBreak: 1.5
-  playerForceToBreak: 0.25
+  playerForceToBreak: 7
   metalForceToBreak: 1000
   woodForceToBreak: 1000
   debrisForceToBreak: 1000
@@ -5712,6 +5712,7 @@ MonoBehaviour:
   debug: 1
   drawGizmos: 0
   drawHeatRadius: 0
+  disableDistruction: 0
 --- !u!114 &1014108581887181562
 MonoBehaviour:
   m_ObjectHideFlags: 0

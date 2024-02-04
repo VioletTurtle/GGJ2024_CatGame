@@ -45,7 +45,7 @@ public class FlammableProp : MonoBehaviour
         onFire = true;
         fireParticles.Play();
 
-        Debug.Log("Catching fire...");
+        //Debug.Log("Catching fire...");
 
         Burn();
     }
@@ -64,7 +64,7 @@ public class FlammableProp : MonoBehaviour
             }
 
             _owningProp.TakeDamage(GameManager.Instance.fireDamagePerTick);
-            Debug.Log("Burning...");
+            //Debug.Log("Burning...");
             CheckForNearbyFlammables();
         }
     }
@@ -89,14 +89,14 @@ public class FlammableProp : MonoBehaviour
                 //Get outta here if it's not flammable or it's already on fire
                 if (flammableProp.onFire || !flammableProp.flammable) continue;
 
-                Debug.Log("Flammable prop " + prop.name + " found.");
+                //Debug.Log("Flammable prop " + prop.name + " found.");
 
                 int roll = Random.Range(0, 100);
-                Debug.Log("Roll: " + roll + " | chanceToIgnite: " + flammableProp.chanceToIgnite);
+                //Debug.Log("Roll: " + roll + " | chanceToIgnite: " + flammableProp.chanceToIgnite);
 
                 if (roll < chanceToIgnite && !flammableProp.onFire)
                 {
-                    Debug.Log("Igniting Flammable Prop " + prop.name + "...");
+                    //Debug.Log("Igniting Flammable Prop " + prop.name + "...");
                     flammableProp.CatchFire();
                 }
             }

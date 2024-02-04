@@ -147,8 +147,8 @@ public class DestructableProp : MonoBehaviour
         foreach (DebrisProp piece in fragments)
         {
             //Randomize torque & force for more visual intrigue
-            torque = new Vector3(Random.Range(-1f, 1f), Random.Range(-1f, 1f), Random.Range(-1f, 1f));
-            movingForceMultiplier = Random.Range(1, 5);
+            torque = new Vector3(Random.Range(-0.3f, 0.3f), Random.Range(-0.3f, 0.3f), Random.Range(-0.3f, 0.3f));
+            movingForceMultiplier = Random.Range(0.3f, 1f);
             stationaryForceMultiplier = Random.Range(0.3f, 1f);
 
             Rigidbody rbody = piece.gameObject.GetComponent<Rigidbody>();
@@ -208,7 +208,7 @@ public class DestructableProp : MonoBehaviour
             _collisionForceMagnitude = collision.relativeVelocity.magnitude;
 
             if (!debug) break;
-            //Debug.Log("last collision direction: " + _dirLastCollision + " | Force Mag: " + _collisionForceMagnitude);
+            Debug.Log("last collision direction: " + _dirLastCollision + " | Force Mag: " + _collisionForceMagnitude);
         }
 
         //Any super strong impact destroys instantly regardless of material
